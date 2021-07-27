@@ -1,5 +1,11 @@
 # Olympic Stats
 
+### How to run
+1) Clone the repo: `git clone git@github.com:ericmagnuson/olympicstats.git && cd olympicstats`
+2) Install mocha: `npm install`
+3) Run tests: `npm test`
+4) Run any sample/test code appended below class definition: `npm start`
+
 ### Notes
 1) For the sake of predictable output, I will return the average times sorted alphabetically by the "action" name.
 2) I will also round returned values to the nearest 0.01 (not minding significant figures here) to keep things clean.
