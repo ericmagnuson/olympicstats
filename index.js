@@ -71,12 +71,10 @@ export default class OlympicStats {
 
         // Let's sort the keys (this adds some predictability at the expense of
         // extra time complexity) before calculating the current average for each action.
-        // Note: using scientific notation when rounding result in order to avoid rounding
-        // errors. More here: https://medium.com/swlh/how-to-round-to-a-certain-number-of-decimal-places-in-javascript-ed74c471c1b8
         Object.keys(this.currentCountPerAction).sort().forEach((item) => {
             currentStats.push({
                 action: item,
-                avg: Number(Math.round((this.currentRunningTimePerAction[item] / this.currentCountPerAction[item]) + "e2") + "e-2")
+                avg: Math.round((this.currentRunningTimePerAction[item] / this.currentCountPerAction[item]) + 100) - 100
             });
         });
 
