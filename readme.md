@@ -6,17 +6,40 @@
 3) Run tests: `npm test`
 4) Run any sample/test code appended below class definition: `npm start`
 
+### Documentation
+
+Class method: addAction(jsonEntry)
+Parameters:
+
+
+Class method: getStats()
+Parameters: none
+Returns: string
+
+
+### Example usage
+```
+let stats = new OlympicStats();
+
+stats.addAction('{"action":"jump", "time":100}');
+stats.addAction('{"action":"run", "time":75}');
+stats.addAction('{"action":"jump", "time":200}');
+
+console.log(stats.getStats());
+```
+
 ### Notes
 1) For the sake of predictable output, I will return the average times sorted alphabetically by the "action" name.
 2) I will also round returned values to the nearest 0.01 (not minding significant figures here) to keep things clean.
+3) Admittedly, I could break out some logic from addAction() and getStats() into helper functions (e.g. validating input, calculating a precisely rounded value), but the class is already pretty small that I don't think it'd be very beneficial.  If the class were expanded down the road to handle other types of stats, then it might be worth breaking out some logic.
 
 ### Definitions
 - "entry": One set of "action" and "time" (e.g. `{"action":"jump", "time":100}`)
 
 ### Assumptions
 1) To help show how I'd do this in a real production environment, I thought it'd help to "theme" the challenge a little since the technical requirements are open-ended. Since the Olympics are going on right now and since the example input refers to sports, I'll make the assumption that this library will be used to keep track of sport-related actions and times. That will help direct the other assumptions.
-2) "action" value, representing the name of a sport, should always be a string (I won't be too picky on which chars are allowed — a string could have numbers or punctuation)
-3) "time" value should always be a number (could be int, could be decimal) in seconds. I'll assume any input containing multiple units (e.g. "1d 21h 33m") will have been converted to seconds when passed as a parameter
+2) "action" value, representing the name of a sport, should always be a string (I won't be too picky on which chars are allowed — a string could have numbers or punctuation (e.g. 3-on-3 basketball))
+3) "time" value should always be a number in seconds (could be integer, could be decimal). I'll assume any input containing multiple units (e.g. "1d 21h 33m") will have been converted to seconds before being passed in as a parameter.
 4) If other keys are passed into an entry, let's not worry about them — we'll just pass over that info. We need only "action" and "time".
 
 ### Edge cases to catch

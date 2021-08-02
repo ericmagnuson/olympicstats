@@ -4,18 +4,19 @@ export default class OlympicStats {
     constructor() {
         // Set the values we need to store as long as the object is alive.
         // If we keep the running time total and the current count of entries
-        // for each action, we can calculate averages without having to store
+        // for each action/sport, we can calculate averages without having to store
         // each entry.
         this.currentRunningTimePerAction = [];  // array<sportString><integr|decimal>
         this.currentCountPerAction = [];        // array<sportString><integer>
     }
 
     addAction(jsonEntry) {
-        // Let's convert JSON string to an object and also make sure it is valid JSON
+        // Declaring the vars at the top of the function to keep things clean
         var entry, action, time;
 
         jsonEntry = jsonEntry || ''; // Prevent null input errors
 
+        // Let's convert JSON string to an object and also make sure it is valid JSON
         try {
             entry = JSON.parse(jsonEntry);
         } catch (error) {
@@ -63,31 +64,35 @@ export default class OlympicStats {
     }
 
     getStats() {
-        // @todo I'm making an array on every call of this. This could probably be more efficient.
-        // @todo Fix the rounding errors (https://medium.com/swlh/how-to-round-to-a-certain-number-of-decimal-places-in-javascript-ed74c471c1b8)
+        // @todo I'm making an array on every call of this. This could probably be more efficient. For example,
+        //       we could perhaps calculate the average on every call of addAction and store it for retreval
+        //       when getStats() is called.
         var currentStats = [];
 
         // Let's sort the keys (this adds some predictability at the expense of
         // extra time complexity) before calculating the current average for each action.
+        // Note: using scientific notation when rounding result in order to avoid rounding
+        // errors. More here: https://medium.com/swlh/how-to-round-to-a-certain-number-of-decimal-places-in-javascript-ed74c471c1b8
         Object.keys(this.currentCountPerAction).sort().forEach((item) => {
             currentStats.push({
                 action: item,
-                avg: Math.round(this.currentRunningTimePerAction[item] / this.currentCountPerAction[item] * 100) / 100
+                avg: Number(Math.round((this.currentRunningTimePerAction[item] / this.currentCountPerAction[item]) + "e2") + "e-2")
             });
         });
 
         return JSON.stringify(currentStats);
     }
+
 }
 
 
 
-console.log("Initializing class instance sample");
+console.log("Initializing class instance with sample data");
 let stats = new OlympicStats();
-console.log(stats.addAction('{"action": "jump", "time": 0.87}'));
-console.log(stats.addAction('{"action": "sprint", "time": 1e2}'));
-console.log(stats.addAction('{"action": "jump", "time": 9.3}'));
-console.log(stats.addAction('{"action": "sprint", "time": 150}'));
-console.log(stats.addAction('{"action": "sprint", "time": 300}'));
-console.log(stats.addAction('{"action": "jump", "time": 13.1}'));
+
+console.log(stats.addAction('{"action":"jump", "time":100}'));
+console.log(stats.addAction('{"action":"run", "time":75}'));
+console.log(stats.addAction('{"action":"jump", "time":200}'));
+
+console.log("Averages for given sample data");
 console.log(stats.getStats());
