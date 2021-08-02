@@ -1,20 +1,17 @@
 # Olympic Stats
 
-### How to run
-1) Clone the repo: `git clone git@github.com:ericmagnuson/olympicstats.git && cd olympicstats`
+_A library to collect sport times and return current average times per sport._
+
+### Prerequisites
+- nodejs
+- npm
+- git
+
+### Getting started
+1) Clone the repo: `git clone https://github.com/ericmagnuson/olympicstats.git && cd olympicstats`
 2) Install mocha: `npm install`
 3) Run tests: `npm test`
 4) Run any sample/test code appended below class definition: `npm start`
-
-### Documentation
-
-Class method: addAction(jsonEntry)
-Parameters:
-
-
-Class method: getStats()
-Parameters: none
-Returns: string
 
 
 ### Example usage
@@ -27,6 +24,17 @@ stats.addAction('{"action":"jump", "time":200}');
 
 console.log(stats.getStats());
 ```
+
+### Documentation
+
+#### `addAction(jsonEntry)`
+Parameters: string `jsonEntry`, where string is encoded JSON object. The encoded JSON object must have two keys: `action` and `time`, where `action` is a string representing the name of an action and where `time` is a number in seconds representing the duration of an action.  See example usage above.
+Returns: error string
+
+#### `getStats()`
+Parameters: none
+Returns: string of encoded JSON object representing the average times of each action passed into `addAction`.
+
 
 ### Notes
 1) For the sake of predictable output, I will return the average times sorted alphabetically by the "action" name.
